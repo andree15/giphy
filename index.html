@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="page-title">Movie GIFs</h1>
+    <!--movies here-->
+    <div id="buttons-view"></div>
+
+    <!-- search option -->
+    <form id="movie-form">
+        <label for='movie-input'>Search For A Movie!</label>
+        <input type='text' id='movie-input'>
+        <br>
+        <!-- button for adding movie -->
+        <input id='add-movie' type='submit' value="Search">
+    </form>
+    <!-- JQuery -->
+
+    <!-- The goal of this project is to search for a movie and had GIF's apear for that search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var queryURL = "https://api.giphy.com/v1/gifs/trending?api_key=B69ar0I4XEZgWwWLGr4TME2PQqAnEG8c";
+        // movies already loaded
+        var movies = ["Interstellar", "Star Wars: Rogue One", "Avengers: Endgame", "Harry Potter"]
+        //function to dsplay movie data
+        function renderButtons() {
+
+            //needed so no repeats
+            $("#buttons-view").empty();
+            // loop through the movies
+            for (var i = 0; i < movies.length; i++) {
+                //create a new tag
+                var a = $('<button>');
+                //add class
+                a.addClass('movie');
+                //adds a data attribute with a value of the movie at index i
+                a.attr("data-name", movies[i]);
+                // turns the title of the movie into the button
+                a.text(movies[i])
+                //
+                $('#buttons-view').append(a);
+            }
+        }
+
+        //button clicked event listener
+        $('#add-movie').on('click', function (event) {
+            //prevents for from submitting itself
+            event.preventDefault();
+            //takes the text from the input
+            var movie = $('#movie-input').val().trim()
+            //adds/pushes to array of movies
+            movies.push(movie)
+            //calls the function^
+            renderButtons();
+        })
+        //calling the function again
+        renderButtons();
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            response.data.forEach((d) => {
+                //this is not done. 
+            })
+        });
+    </script>
+</body>
+
+</html>
+
+<!-- i still need to implement the search to the GIPHY site and have the GIFs appear and dissapear when a new search is performed.
+i figured out to get the API and implement that into my code. I'm having a hard time with this one. Will need a toutor. -->
